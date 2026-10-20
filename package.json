@@ -1,0 +1,27 @@
+{
+  "name": "trilha-web-multitracks",
+  "version": "1.0.0",
+  "description": "Trilha Web - Player Profissional de Multitracks, VS e Worship Pads com Biblioteca na Nuvem",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "multitrack",
+    "vs",
+    "playback",
+    "pads",
+    "worship",
+    "church",
+    "mixer",
+    "audio"
+  ],
+  "author": "Gustavo / Trilha Web",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "ws": "^8.17.0"
+  }
+}

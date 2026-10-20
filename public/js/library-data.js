@@ -1,0 +1,183 @@
+// Biblioteca de Multitracks & VSs - Trilha Web
+const LIBRARY_SONGS = [
+  {
+    id: "a-casa-e-sua",
+    title: "A Casa É Sua",
+    artist: "Casa Worship",
+    key: "C",
+    bpm: 70,
+    timeSignature: "4/4",
+    duration: 340, // 5:40
+    category: "Worship / Adoração",
+    cover: "🎵",
+    sections: [
+      { id: "intro", name: "Intro", bars: 4, start: 0, end: 13.71, color: "#3b82f6" },
+      { id: "verso-1", name: "Verso 1", bars: 8, start: 13.71, end: 41.14, color: "#10b981" },
+      { id: "verso-2", name: "Verso 2", bars: 8, start: 41.14, end: 68.57, color: "#10b981" },
+      { id: "pre-refrao", name: "Pré-Refrão", bars: 4, start: 68.57, end: 82.28, color: "#f59e0b" },
+      { id: "refrao-1", name: "Refrão", bars: 8, start: 82.28, end: 109.71, color: "#ef4444" },
+      { id: "interludio", name: "Interlúdio", bars: 4, start: 109.71, end: 123.42, color: "#6366f1" },
+      { id: "ponte-1", name: "Ponte", bars: 8, start: 123.42, end: 150.85, color: "#8b5cf6" },
+      { id: "ponte-2", name: "Ponte Forte", bars: 8, start: 150.85, end: 178.28, color: "#ec4899" },
+      { id: "refrao-2", name: "Refrão Explosão", bars: 8, start: 178.28, end: 205.71, color: "#ef4444" },
+      { id: "espontaneo", name: "Espontâneo", bars: 16, start: 205.71, end: 260.57, color: "#14b8a6" },
+      { id: "outro", name: "Final", bars: 8, start: 260.57, end: 340.0, color: "#64748b" }
+    ],
+    chords: {
+      "intro": "C | G/B | Am7 | F",
+      "verso-1": "C                     G/B\nVocê é bem-vindo aqui, a casa é Sua\nAm7             F\nPode entrar, pode ficar",
+      "verso-2": "C                     G/B\nNão temos outro Deus, somente a Ti\nAm7             F\nQueremos Teu mover aqui",
+      "pre-refrao": "Dm7              F            G\nE tudo que há em nós te louva e adora",
+      "refrao-1": "C                       G/B\nEssa casa é Sua casa, nós deixamos ela pra Você\nAm7                     F\nJesus, essa casa é Sua casa",
+      "ponte-1": "C              G/B\nApareça, que o Teu nome cresça\nAm7            F\nVem com Teu poder aqui",
+      "espontaneo": "C | G/B | Am7 | F (Livre com Pad contínuo)"
+    },
+    tracks: [
+      { id: "click", name: "Click", type: "click", volume: 0.9, pan: -1, solo: false, mute: false },
+      { id: "guia", name: "Guia Voz", type: "guide", volume: 0.85, pan: -1, solo: false, mute: false },
+      { id: "drums", name: "Bateria / Stems", type: "drums", volume: 0.85, pan: 0, solo: false, mute: false },
+      { id: "bass", name: "Baixo", type: "bass", volume: 0.8, pan: 0, solo: false, mute: false },
+      { id: "guitars", name: "Guitarras / Violão", type: "guitars", volume: 0.75, pan: 0.3, solo: false, mute: false },
+      { id: "keys", name: "Teclas / Pads", type: "keys", volume: 0.8, pan: -0.3, solo: false, mute: false },
+      { id: "bgv", name: "Backing Vocals", type: "bgv", volume: 0.7, pan: 0, solo: false, mute: false }
+    ]
+  },
+  {
+    id: "ruja-o-leao",
+    title: "Ruja o Leão",
+    artist: "Talita Catanzaro",
+    key: "D",
+    bpm: 74,
+    timeSignature: "4/4",
+    duration: 372,
+    category: "Worship / Celebração",
+    cover: "🦁",
+    sections: [
+      { id: "intro", name: "Intro", bars: 4, start: 0, end: 12.97, color: "#3b82f6" },
+      { id: "verso-1", name: "Verso 1", bars: 8, start: 12.97, end: 38.91, color: "#10b981" },
+      { id: "refrao-1", name: "Refrão", bars: 8, start: 38.91, end: 64.86, color: "#ef4444" },
+      { id: "ponte", name: "Ponte", bars: 8, start: 64.86, end: 90.81, color: "#8b5cf6" },
+      { id: "refrao-2", name: "Refrão Forte", bars: 8, start: 90.81, end: 116.75, color: "#ef4444" },
+      { id: "espontaneo", name: "Ministração", bars: 16, start: 116.75, end: 168.64, color: "#14b8a6" },
+      { id: "outro", name: "Final", bars: 8, start: 168.64, end: 372.0, color: "#64748b" }
+    ],
+    chords: {
+      "intro": "Bm | G | D | A",
+      "verso-1": "Bm                      G\nSobre o trono estás, coroado de glória\nD                      A\nTeu poder e domínio não têm fim",
+      "refrao-1": "Bm              G\nRuja o Leão da tribo de Judá\nD               A\nManifeste o Teu Reino aqui neste lugar",
+      "ponte": "G            A           Bm        D/F#\nTodo joelho se dobrará, toda língua confessará"
+    },
+    tracks: [
+      { id: "click", name: "Click", type: "click", volume: 0.9, pan: -1, solo: false, mute: false },
+      { id: "guia", name: "Guia Voz", type: "guide", volume: 0.85, pan: -1, solo: false, mute: false },
+      { id: "drums", name: "Bateria / Stems", type: "drums", volume: 0.9, pan: 0, solo: false, mute: false },
+      { id: "bass", name: "Baixo", type: "bass", volume: 0.85, pan: 0, solo: false, mute: false },
+      { id: "guitars", name: "Guitarras / Violão", type: "guitars", volume: 0.8, pan: 0.2, solo: false, mute: false },
+      { id: "keys", name: "Teclas / Synth", type: "keys", volume: 0.8, pan: -0.2, solo: false, mute: false },
+      { id: "bgv", name: "Backing Vocals", type: "bgv", volume: 0.7, pan: 0, solo: false, mute: false }
+    ]
+  },
+  {
+    id: "bondade-de-deus",
+    title: "Bondade de Deus",
+    artist: "Isaías Saad",
+    key: "G",
+    bpm: 68,
+    timeSignature: "4/4",
+    duration: 315,
+    category: "Worship / Gratidão",
+    cover: "✨",
+    sections: [
+      { id: "intro", name: "Intro", bars: 4, start: 0, end: 14.11, color: "#3b82f6" },
+      { id: "verso-1", name: "Verso 1", bars: 8, start: 14.11, end: 42.35, color: "#10b981" },
+      { id: "refrao-1", name: "Refrão", bars: 8, start: 42.35, end: 70.58, color: "#ef4444" },
+      { id: "verso-2", name: "Verso 2", bars: 8, start: 70.58, end: 98.82, color: "#10b981" },
+      { id: "refrao-2", name: "Refrão 2", bars: 8, start: 98.82, end: 127.05, color: "#ef4444" },
+      { id: "ponte", name: "Ponte", bars: 8, start: 127.05, end: 155.29, color: "#8b5cf6" },
+      { id: "refrao-3", name: "Refrão Explosão", bars: 8, start: 155.29, end: 183.52, color: "#ef4444" },
+      { id: "outro", name: "Final", bars: 8, start: 183.52, end: 315.0, color: "#64748b" }
+    ],
+    chords: {
+      "intro": "G | C | G | C",
+      "verso-1": "G                    C\nTe amo, Deus, Tua graça nunca falha\n     D/F#    Em7        C        D\nTodos os meus dias em Tuas mãos estão",
+      "refrao-1": "C                G\nÉs fiel em todo tempo\nC                   G        D/F#\nEm todo tempo Tu és tão, tão bom\nC                   Em7\nCom todo fôlego que tenho\nC           D          G\nEu cantarei da bondade de Deus"
+    },
+    tracks: [
+      { id: "click", name: "Click", type: "click", volume: 0.9, pan: -1, solo: false, mute: false },
+      { id: "guia", name: "Guia Voz", type: "guide", volume: 0.85, pan: -1, solo: false, mute: false },
+      { id: "drums", name: "Bateria / Stems", type: "drums", volume: 0.8, pan: 0, solo: false, mute: false },
+      { id: "bass", name: "Baixo", type: "bass", volume: 0.8, pan: 0, solo: false, mute: false },
+      { id: "guitars", name: "Violão / Guitarras", type: "guitars", volume: 0.8, pan: 0.3, solo: false, mute: false },
+      { id: "keys", name: "Piano / Strings", type: "keys", volume: 0.85, pan: -0.3, solo: false, mute: false },
+      { id: "bgv", name: "Backing Vocals", type: "bgv", volume: 0.7, pan: 0, solo: false, mute: false }
+    ]
+  },
+  {
+    id: "ousado-amor",
+    title: "Ousado Amor",
+    artist: "Isaías Saad",
+    key: "F#",
+    bpm: 68,
+    timeSignature: "6/8",
+    duration: 332,
+    category: "Worship / Louvor",
+    cover: "🔥",
+    sections: [
+      { id: "intro", name: "Intro", bars: 4, start: 0, end: 14.11, color: "#3b82f6" },
+      { id: "verso-1", name: "Verso 1", bars: 8, start: 14.11, end: 42.35, color: "#10b981" },
+      { id: "refrao-1", name: "Refrão", bars: 8, start: 42.35, end: 70.58, color: "#ef4444" },
+      { id: "ponte", name: "Ponte", bars: 8, start: 70.58, end: 98.82, color: "#8b5cf6" },
+      { id: "outro", name: "Final", bars: 8, start: 98.82, end: 332.0, color: "#64748b" }
+    ],
+    chords: {
+      "intro": "D#m | C# | B | F#",
+      "verso-1": "D#m             C#              B\nAntes de eu falar, Tu cantavas sobre mim\nD#m          C#          B\nTu tens sido tão, tão bom pra mim",
+      "refrao-1": "D#m             C#                B         F#\nOh, impressionante, infinito e ousado amor de Deus\nD#m             C#                    B          F#\nOh, que deixa as noventa e nove só pra me encontrar"
+    },
+    tracks: [
+      { id: "click", name: "Click", type: "click", volume: 0.9, pan: -1, solo: false, mute: false },
+      { id: "guia", name: "Guia Voz", type: "guide", volume: 0.85, pan: -1, solo: false, mute: false },
+      { id: "drums", name: "Bateria / Stems", type: "drums", volume: 0.85, pan: 0, solo: false, mute: false },
+      { id: "bass", name: "Baixo", type: "bass", volume: 0.8, pan: 0, solo: false, mute: false },
+      { id: "guitars", name: "Guitarras", type: "guitars", volume: 0.75, pan: 0.3, solo: false, mute: false },
+      { id: "keys", name: "Teclas / Synths", type: "keys", volume: 0.8, pan: -0.3, solo: false, mute: false },
+      { id: "bgv", name: "Backing Vocals", type: "bgv", volume: 0.7, pan: 0, solo: false, mute: false }
+    ]
+  },
+  {
+    id: "todavia-me-alegrarei",
+    title: "Todavia Me Alegrarei",
+    artist: "Leandro Soares",
+    key: "E",
+    bpm: 72,
+    timeSignature: "4/4",
+    duration: 295,
+    category: "Worship / Fé",
+    cover: "🕊️",
+    sections: [
+      { id: "intro", name: "Intro", bars: 4, start: 0, end: 13.33, color: "#3b82f6" },
+      { id: "verso-1", name: "Verso 1", bars: 8, start: 13.33, end: 40.0, color: "#10b981" },
+      { id: "refrao-1", name: "Refrão", bars: 8, start: 40.0, end: 66.66, color: "#ef4444" },
+      { id: "ponte", name: "Ponte", bars: 8, start: 66.66, end: 93.33, color: "#8b5cf6" },
+      { id: "outro", name: "Final", bars: 8, start: 93.33, end: 295.0, color: "#64748b" }
+    ],
+    chords: {
+      "intro": "E | B/D# | C#m7 | A",
+      "verso-1": "E                B/D#\nEu olhei a figueira e não floresceu\nC#m7             A\nNão havia fruto nos campos, nada restou",
+      "refrao-1": "E             B/D#\nTodavia me alegrarei, todavia me alegrarei\nC#m7          A\nNo Deus da minha salvação"
+    },
+    tracks: [
+      { id: "click", name: "Click", type: "click", volume: 0.9, pan: -1, solo: false, mute: false },
+      { id: "guia", name: "Guia Voz", type: "guide", volume: 0.85, pan: -1, solo: false, mute: false },
+      { id: "drums", name: "Bateria / Stems", type: "drums", volume: 0.85, pan: 0, solo: false, mute: false },
+      { id: "bass", name: "Baixo", type: "bass", volume: 0.8, pan: 0, solo: false, mute: false },
+      { id: "guitars", name: "Guitarras / Violão", type: "guitars", volume: 0.8, pan: 0.2, solo: false, mute: false },
+      { id: "keys", name: "Teclas / Pads", type: "keys", volume: 0.8, pan: -0.2, solo: false, mute: false },
+      { id: "bgv", name: "Backing Vocals", type: "bgv", volume: 0.7, pan: 0, solo: false, mute: false }
+    ]
+  }
+];
+
+if (typeof module !== 'undefined') {
+  module.exports = { LIBRARY_SONGS };
+}

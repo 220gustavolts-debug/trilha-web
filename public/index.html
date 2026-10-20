@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Trilha Web - Player Profissional de Multitracks, VS & Worship Pads</title>
+  <meta name="description" content="O player definitivo de Multitracks, VS (Virtual Sampler) e Worship Pads contínuos para igrejas e bandas. Toca direto no navegador com biblioteca na nuvem por apenas R$ 29,90/mês." />
+  
+  <!-- Fontes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#07090e" />
+</head>
+<body>
+
+  <!-- ==========================================================================
+       BARRA SUPERIOR (HEADER)
+       ========================================================================== -->
+  <header class="top-header">
+    <div class="logo-group">
+      <div class="brand-badge">
+        <div class="logo-wave">⚡</div>
+        <div class="brand-title">TRILHA<span style="color: #00f2fe;">WEB</span></div>
+      </div>
+      <div class="plan-badge" id="btnOpenSubscription" title="Ver detalhes do plano">
+        PRO · R$ 29,90/MÊS
+      </div>
+    </div>
+
+    <div class="header-center">
+      <button class="btn-tab active" id="btnOpenLibrary">
+        <span>📚</span> Biblioteca de VSs
+      </button>
+      <button class="btn-tab" id="btnOpenChords">
+        <span>📄</span> Cifra & Letra
+      </button>
+      <button class="btn-tab" id="btnOpenRemote">
+        <span>📱</span> Controle no Celular
+      </button>
+    </div>
+
+    <div class="header-right">
+      <button class="btn-header-cta" id="btnAssinarTopo">
+        <span>👑</span> Assinar Plano (R$ 29,90)
+      </button>
+      <button class="btn-icon-header" id="btnFullScreen" title="Tela Cheia / Modo Palco">
+        ⛶
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       ÁREA DE TRANSPORTE & STATUS (NOW PLAYING DOCK)
+       ========================================================================== -->
+  <div class="transport-dock">
+    <!-- Informações da Música -->
+    <div class="song-info-card">
+      <div class="song-cover-badge" id="songCover">🎵</div>
+      <div class="song-titles">
+        <div class="song-title-active" id="songTitle">Carregando faixa...</div>
+        <div class="song-artist-active" id="songArtist">Trilha Web Multitrack</div>
+      </div>
+    </div>
+
+    <!-- Controles Principais de Playback -->
+    <div class="transport-center">
+      <div class="transport-buttons-row">
+        <button class="btn-transport btn-round-sub" id="btnStopMaster" title="Parar e voltar ao início (Stop)">
+          ■
+        </button>
+        <button class="btn-transport btn-play-master" id="btnPlayMaster" title="Play / Pause (Barra de Espaço)">
+          ▶
+        </button>
+        <button class="btn-transport btn-round-sub" id="btnLoopSection" title="Repetir Seção Atual em Loop contínuo">
+          🔁
+        </button>
+        <button class="btn-fadeout" id="btnFadeOut" title="Finalizar com Fade Out suave de 3 segundos">
+          FADE OUT
+        </button>
+      </div>
+
+      <!-- Relógio e Compassos -->
+      <div class="time-display-box">
+        <span class="bar-counter" id="barCounter">001 : 1</span>
+        <span class="bar-label">Comp : T</span>
+        <span style="color: var(--text-dim); margin: 0 4px;">•</span>
+        <span class="clock-timer" id="clockTimer">00:00 / 00:00</span>
+      </div>
+    </div>
+
+    <!-- Parâmetros Musicais (Tom, BPM, Roteador Split Fone/PA) -->
+    <div class="transport-params-dock">
+      <!-- Tom / Pitch -->
+      <div class="param-pill">
+        <span class="param-lbl">Tom</span>
+        <div class="param-ctrl">
+          <button class="btn-param-step" id="btnKeyMinus">-</button>
+          <span class="param-val" id="currentKey">C</span>
+          <button class="btn-param-step" id="btnKeyPlus">+</button>
+        </div>
+      </div>
+
+      <!-- BPM / Andamento -->
+      <div class="param-pill">
+        <span class="param-lbl">BPM</span>
+        <div class="param-ctrl">
+          <button class="btn-param-step" id="btnBpmMinus">-</button>
+          <span class="param-val" id="currentBpm">120</span>
+          <button class="btn-param-step" id="btnBpmPlus">+</button>
+        </div>
+      </div>
+
+      <!-- Split Mode Toggle: Fone (L) / Mesa PA (R) -->
+      <div class="split-toggle-btn" id="btnSplitMode" title="Envia Click/Guia no canal Esquerdo (L) e Banda no canal Direito (R)">
+        <span>SAÍDA SPLIT</span>
+        <small>L=Fone | R=P.A.</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       SEÇÕES DA MÚSICA & SALTO QUANTIZADO (TIMELINE)
+       ========================================================================== -->
+  <div class="sections-timeline-wrap">
+    <div class="sections-header-hint">
+      <span>SEÇÕES DA MÚSICA (Clique para pular na virada do compasso)</span>
+      <span>Atalhos: [Espaço] Play | [L] Loop | [P] Pad | [1-9] Seções</span>
+    </div>
+    <div class="sections-row" id="sectionsRow">
+      <!-- Seções geradas dinamicamente via JS -->
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MIXER MULTITRACK (CORPO PRINCIPAL)
+       ========================================================================== -->
+  <main class="main-workspace">
+    <div class="mixer-stage" id="mixerStage">
+      <!-- Canais gerados dinamicamente via JS (Click, Guia, Drums, Bass, Guitars, Keys, Master) -->
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       PAINEL INFERIOR: WORSHIP PAD CONTÍNUO & AMBIENTE
+       ========================================================================== -->
+  <footer class="bottom-dock">
+    <div class="pad-station">
+      <button class="pad-main-btn" id="btnPadToggle">
+        <span class="pad-icon-wave">🌊</span>
+        <div class="pad-status-text" id="padStatusText">
+          <strong>LIGAR PAD CONTÍNUO</strong>
+          <small>Worship Pad Ambiente Infinito</small>
+        </div>
+      </button>
+
+      <div class="pad-keys-row">
+        <button class="pad-key-btn active" data-key="C">C</button>
+        <button class="pad-key-btn" data-key="C#">C#</button>
+        <button class="pad-key-btn" data-key="D">D</button>
+        <button class="pad-key-btn" data-key="D#">D#</button>
+        <button class="pad-key-btn" data-key="E">E</button>
+        <button class="pad-key-btn" data-key="F">F</button>
+        <button class="pad-key-btn" data-key="F#">F#</button>
+        <button class="pad-key-btn" data-key="G">G</button>
+        <button class="pad-key-btn" data-key="G#">G#</button>
+        <button class="pad-key-btn" data-key="A">A</button>
+        <button class="pad-key-btn" data-key="A#">A#</button>
+        <button class="pad-key-btn" data-key="B">B</button>
+      </div>
+    </div>
+
+    <div class="pad-options">
+      <label class="checkbox-label">
+        <input type="checkbox" id="padAutoDuckCheck" checked />
+        <span>Abaixa o pad quando a música começar</span>
+      </label>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       MODAL 1: BIBLIOTECA DE VS NA NUVEM (REPERTÓRIO COMPLETO)
+       ========================================================================== -->
+  <div class="modal-overlay" id="modalLibrary">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">📚 Biblioteca de Multitracks na Nuvem</div>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="library-search-box" id="searchLibraryInput" placeholder="🔍 Pesquisar por música, cantor ou tom (ex: A Casa É Sua, Isaías Saad, G)..." />
+        <div class="songs-grid-list" id="librarySongsList">
+          <!-- Músicas carregadas via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: ASSINATURA SAAS R$ 29,90/MÊS (SOFTWARE + BIBLIOTECA DE VS)
+       ========================================================================== -->
+  <div class="modal-overlay" id="modalSubscription">
+    <div class="modal-window" style="max-width: 580px;">
+      <div class="modal-header">
+        <div class="modal-title">👑 Assine o Trilha Web PRO</div>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="pricing-card-saas">
+          <div class="pricing-badge-popular">Melhor Custo-Benefício</div>
+          <h2 style="font-family: 'Outfit'; font-size: 1.8rem; margin-bottom: 8px;">Software Player + Biblioteca de VS</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Tudo o que sua banda e igreja precisam em uma única assinatura acessível.</p>
+
+          <div class="price-value-row">
+            <span class="currency-sym">R$</span>
+            <span class="price-number">29,90</span>
+            <span class="period-text">/ mês</span>
+          </div>
+
+          <ul class="features-list">
+            <li><span>✓</span> <strong>Player Web Multitrack Ilimitado</strong> no navegador</li>
+            <li><span>✓</span> <strong>Biblioteca Completa de VSs</strong> com sucessos gospel atualizados</li>
+            <li><span>✓</span> <strong>Ambient Worship Pads Contínuos</strong> nos 12 tons com crossfade</li>
+            <li><span>✓</span> <strong>Controle Remoto Sem Fio</strong> direto no celular dos músicos</li>
+            <li><span>✓</span> <strong>Modo Split Inteligente</strong> (L=Fone Click/Guia | R=Mesa de Som)</li>
+            <li><span>✓</span> <strong>Cifras e Letras que acompanham o tom</strong> automaticamente</li>
+            <li><span>✓</span> <strong>Suporte a importação</strong> dos seus próprios stems de áudio</li>
+          </ul>
+
+          <button class="btn-checkout-cta" onclick="alert('Redirecionando para o Checkout Seguro (Mercado Pago / Kiwify / Hotmart / Asaas)...')">
+            ASSINAR AGORA POR R$ 29,90/MÊS
+          </button>
+          <p style="font-size: 0.75rem; color: var(--text-dim); margin-top: 14px;">Cancele a qualquer momento com 1 clique · Sem fidelidade · Acesso imediato</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: CIFRA E LETRA SINCRONIZADA
+       ========================================================================== -->
+  <div class="modal-overlay" id="modalChords">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">📄 Cifra & Letra da Canção</div>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="chord-box-wrap" id="chordBox">
+          Carregando cifra...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 4: CONTROLE REMOTO PELO CELULAR (MODO PALCO)
+       ========================================================================== -->
+  <div class="modal-overlay" id="modalRemote">
+    <div class="modal-window" style="max-width: 520px; text-align: center;">
+      <div class="modal-header">
+        <div class="modal-title">📱 Controle Remoto no Celular</div>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-muted); margin-bottom: 20px;">
+          Qualquer integrante da banda (baterista, ministro de louvor, tecladista) pode controlar as seções e o play/pause pelo próprio celular ou tablet na mesma rede Wi-Fi!
+        </p>
+
+        <div style="background: #fff; padding: 18px; border-radius: 12px; display: inline-block; margin-bottom: 20px;">
+          <!-- SVG QR Code visual simulado -->
+          <svg width="180" height="180" viewBox="0 0 100 100" fill="#000">
+            <rect width="100" height="100" fill="#fff"/>
+            <path d="M10,10 h30 v30 h-30 z M15,15 v20 h20 v-20 z M20,20 h10 v10 h-10 z" fill="#000"/>
+            <path d="M60,10 h30 v30 h-30 z M65,15 v20 h20 v-20 z M70,20 h10 v10 h-10 z" fill="#000"/>
+            <path d="M10,60 h30 v30 h-30 z M15,65 v20 h20 v-20 z M20,70 h10 v10 h-10 z" fill="#000"/>
+            <rect x="45" y="10" width="5" height="25" fill="#000"/>
+            <rect x="45" y="45" width="20" height="10" fill="#000"/>
+            <rect x="70" y="55" width="20" height="35" fill="#000"/>
+            <rect x="45" y="70" width="15" height="20" fill="#000"/>
+          </svg>
+        </div>
+
+        <div style="background: var(--bg-card); padding: 14px; border-radius: 8px; font-family: monospace; color: #00f2fe; margin-bottom: 14px;">
+          http://[SEU-IP-LOCAL]:3000/remote.html
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-dim);">
+          Você também pode testar abrindo <a href="remote.html" target="_blank" style="color: #00f2fe;">remote.html</a> em uma nova aba do navegador!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/library-data.js"></script>
+  <script src="js/audio-engine.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Atalho para abrir modal de assinatura pelo botão do topo
+    document.getElementById('btnAssinarTopo').addEventListener('click', () => {
+      document.getElementById('modalSubscription').classList.add('open');
+    });
+  </script>
+</body>
+</html>

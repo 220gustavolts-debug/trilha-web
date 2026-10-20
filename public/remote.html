@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Trilha Web - Controle Remoto Palco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      background: #07090e;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 16px;
+      user-select: none;
+    }
+    .remote-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+    }
+    .remote-brand {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #00f2fe;
+    }
+    .status-dot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: #10b981;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+
+    .current-song-card {
+      background: #0f1524;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .song-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+    .song-meta {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    /* Master Buttons */
+    .master-controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 12px;
+    }
+    .btn-touch {
+      border: none;
+      border-radius: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-height: 80px;
+    }
+    .btn-stop {
+      background: #1e293b;
+      color: #fff;
+      font-size: 1.3rem;
+    }
+    .btn-play-pause {
+      background: linear-gradient(135deg, #00f2fe, #00b4fe);
+      color: #07090e;
+      font-size: 1.8rem;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+    }
+    .btn-loop {
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 1.2rem;
+    }
+    .btn-loop.active {
+      color: #00f2fe;
+      border: 2px solid #00f2fe;
+    }
+
+    /* Seções Grandes para Tocar no Palco */
+    .sections-title {
+      font-size: 0.8rem;
+      color: #64748b;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .sections-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      flex: 1;
+    }
+    .btn-section {
+      background: #141c2c;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      color: #fff;
+      padding: 16px 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 6px;
+      background: var(--sec-color, #00f2fe);
+    }
+    .btn-section.active {
+      border-color: #00f2fe;
+      background: rgba(0, 242, 254, 0.15);
+    }
+    .btn-section.queued {
+      border-color: #f59e0b;
+      animation: pulse 0.5s infinite alternate;
+    }
+
+    /* Pad Switch */
+    .pad-card {
+      background: #0f1524;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="remote-header">
+    <div class="remote-brand">TRILHA REMOTO</div>
+    <div class="status-dot">
+      <div class="dot"></div>
+      <span id="connStatus">Conectado ao Palco</span>
+    </div>
+  </div>
+
+  <div class="current-song-card">
+    <div class="song-name" id="remoteSongTitle">A Casa É Sua</div>
+    <div class="song-meta" id="remoteSongMeta">Casa Worship · Tom C · 70 BPM</div>
+  </div>
+
+  <div class="master-controls-grid">
+    <button class="btn-touch btn-stop" id="btnRemoteStop">
+      <span>■</span>
+      <span style="font-size: 0.65rem;">STOP</span>
+    </button>
+    <button class="btn-touch btn-play-pause" id="btnRemotePlay">
+      <span id="remotePlayIcon">▶</span>
+      <span style="font-size: 0.75rem;">PLAY / PAUSE</span>
+    </button>
+    <button class="btn-touch btn-loop" id="btnRemoteLoop">
+      <span>🔁</span>
+      <span style="font-size: 0.65rem;">LOOP</span>
+    </button>
+  </div>
+
+  <div class="sections-title">SALTAR PARA PARTE NO COMPASSO:</div>
+  <div class="sections-grid" id="remoteSectionsGrid">
+    <button class="btn-section active" style="--sec-color: #3b82f6;" onclick="sendJump('intro')">Intro</button>
+    <button class="btn-section" style="--sec-color: #10b981;" onclick="sendJump('verso-1')">Verso 1</button>
+    <button class="btn-section" style="--sec-color: #f59e0b;" onclick="sendJump('pre-refrao')">Pré-Refrão</button>
+    <button class="btn-section" style="--sec-color: #ef4444;" onclick="sendJump('refrao-1')">Refrão</button>
+    <button class="btn-section" style="--sec-color: #8b5cf6;" onclick="sendJump('ponte-1')">Ponte</button>
+    <button class="btn-section" style="--sec-color: #14b8a6;" onclick="sendJump('espontaneo')">Espontâneo</button>
+  </div>
+
+  <div class="pad-card">
+    <div>
+      <div style="font-weight: 700; font-size: 0.9rem;">Pad Contínuo</div>
+      <div style="font-size: 0.75rem; color: #94a3b8;">Worship Pad de Fundo</div>
+    </div>
+    <button class="btn-touch" style="min-height: 44px; padding: 0 16px; background: #8b5cf6; color: #fff; font-size: 0.85rem;" id="btnRemotePad">
+      Alternar Pad
+    </button>
+  </div>
+
+  <script>
+    let ws = null;
+    let isPlaying = false;
+
+    function connectWS() {
+      try {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        ws = new WebSocket(`${protocol}//${window.location.host}`);
+
+        ws.onopen = () => {
+          document.getElementById('connStatus').textContent = 'Conectado ao Palco';
+        };
+
+        ws.onclose = () => {
+          document.getElementById('connStatus').textContent = 'Tentando reconectar...';
+          setTimeout(connectWS, 2000);
+        };
+      } catch(e){}
+    }
+    connectWS();
+
+    function sendCommand(action, payload = {}) {
+      if (ws && ws.readyState === 1) {
+        ws.send(JSON.stringify({ type: 'COMMAND', action, ...payload }));
+      }
+    }
+
+    const btnPlay = document.getElementById('btnRemotePlay');
+    btnPlay.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      document.getElementById('remotePlayIcon').textContent = isPlaying ? '⏸' : '▶';
+      sendCommand(isPlaying ? 'play' : 'pause');
+    });
+
+    document.getElementById('btnRemoteStop').addEventListener('click', () => {
+      isPlaying = false;
+      document.getElementById('remotePlayIcon').textContent = '▶';
+      sendCommand('stop');
+    });
+
+    document.getElementById('btnRemoteLoop').addEventListener('click', function() {
+      this.classList.toggle('active');
+      sendCommand('loop_toggle');
+    });
+
+    document.getElementById('btnRemotePad').addEventListener('click', () => {
+      sendCommand('pad_toggle');
+    });
+
+    function sendJump(sectionId) {
+      document.querySelectorAll('.btn-section').forEach(b => b.classList.remove('queued'));
+      event.target.classList.add('queued');
+      sendCommand('jump_section', { sectionId });
+    }
+  </script>
+</body>
+</html>
